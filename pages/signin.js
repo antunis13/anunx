@@ -35,7 +35,7 @@ const StyledDiv = styled('div')(({ theme }) => ({
 
 const StyledAvatar = styled(Avatar)(({ theme }) => ({
   margin: theme.spacing(1),
-  backgroundColor: theme.palette.secondary.main
+  backgroundColor: theme.palette.primary.main
 }))
 
 const StyledForm = styled('form')(({ theme }) => ({

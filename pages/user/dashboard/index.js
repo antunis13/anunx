@@ -27,7 +27,7 @@ const StyledCardMedia = styled(CardMedia)(() => ({
 }))
 
 
-export default function Dashboard() {
+const Dashboard = () => {
   return (
     <TemplateDefault>
       <StyledContainer maxWidth="sm">
@@ -117,3 +117,5 @@ export default function Dashboard() {
     </TemplateDefault>
   )
 }
+
+export default Dashboard
