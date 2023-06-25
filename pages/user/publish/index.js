@@ -5,6 +5,10 @@ import {
     TextField,
     Select,
     Button,
+    FormControl,
+    OutlinedInput,
+    InputAdornment,
+    FormLabel,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -109,6 +113,25 @@ const Publish = () => {
                         variant='outlined'
                         fullWidth
                     />
+                </StyledBox>
+            </BoxContainer>
+
+            <BoxContainer maxWidth='md'>
+                <StyledBox>
+                    <Typography component='h6' variant='h6' color='textPrimary'>
+                        Preço 
+                    </Typography>
+                    <br />
+                    <FormControl fullWidth variant='outlined'>
+                        <FormLabel>
+                            Valor
+                        </FormLabel>
+                        <OutlinedInput 
+                            onChange={() => {}}
+                            startAdornment={<InputAdornment position='start'>R$</InputAdornment>}
+                            labelWidth={40}
+                        />
+                    </FormControl>
                 </StyledBox>
             </BoxContainer>
 
