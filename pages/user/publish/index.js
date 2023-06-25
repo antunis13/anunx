@@ -1,6 +1,16 @@
-import { Container, Typography, Box, TextField, Select, Button } from '@mui/material'
-import TemplateDefault from '../../../src/templates/Default'
+import {
+    Container,
+    Typography,
+    Box,
+    TextField,
+    Select,
+    Button,
+} from '@mui/material'
 import { styled } from '@mui/system'
+
+import TemplateDefault from '../../../src/templates/Default'
+import DropzoneComponent from './DropzoneComponent'
+
 
 const StyledContainer = styled(Container)(({ theme }) => ({
     padding: theme.spacing(8, 0, 6)
@@ -17,6 +27,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 
 const Publish = () => {
+
     return(
         <TemplateDefault>
             <StyledContainer maxWidth='sm'>
@@ -80,6 +91,7 @@ const Publish = () => {
                     <Typography component='div' variant='body2' color='textPrimary'>
                         A primeira imagem é a foto principal do seu anúncio.
                     </Typography>
+                    <DropzoneComponent/>
                 </StyledBox>
             </BoxContainer>
 
