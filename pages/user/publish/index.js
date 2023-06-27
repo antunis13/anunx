@@ -16,9 +16,7 @@ import TemplateDefault from '../../../src/templates/Default'
 import DropzoneComponent from './DropzoneComponent'
 
 
-const StyledContainer = styled(Container)(({ theme }) => ({
-    padding: theme.spacing(8, 0, 6)
-}))
+
 
 const BoxContainer = styled(Container)(({ theme }) => ({
     paddingBottom: theme.spacing(3)
@@ -34,14 +32,14 @@ const Publish = () => {
 
     return(
         <TemplateDefault>
-            <StyledContainer maxWidth='sm'>
+            <Container maxWidth='sm'>
                 <Typography component='h1' variant='h2' align='center' color='textPrimary'>
                     Publicar Anúncio
                 </Typography>
                 <Typography component='h5' variant='h5' align='center' color='textPrimary'>
                     Quanto mais detalhado melhor!
                 </Typography>
-            </StyledContainer>
+            </Container>
 
             <BoxContainer maxWidth='md'>
                 <StyledBox>

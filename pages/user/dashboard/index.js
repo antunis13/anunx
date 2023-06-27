@@ -13,9 +13,6 @@ import {
   CardActions
 } from '@mui/material'
 
-const StyledContainer = styled(Container)(({ theme }) => ({
-  padding: theme.spacing(8, 0, 6)
-}))
 
 const StyledButton = styled(Button)(() => ({
   margin: '30px auto',
@@ -30,11 +27,11 @@ const StyledCardMedia = styled(CardMedia)(() => ({
 const Dashboard = () => {
   return (
     <TemplateDefault>
-      <StyledContainer maxWidth="sm">
+      <Container maxWidth="sm">
         <Typography component="h1" variant="h2" align='center'>
           Meus Anúncios
         </Typography>
-      </StyledContainer>
+      </Container>
       <StyledButton variant='contained' color='primary'>
         Publicar novo anúncio
       </StyledButton>

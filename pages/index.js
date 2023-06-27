@@ -14,9 +14,7 @@ import {
 } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 
-const SearchContainer = styled(Container)(({ theme }) => ({
-  padding: theme.spacing(8, 10, 6)
-}))
+
 
 const SearchBox = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -32,7 +30,7 @@ const StyledCardMedia = styled(CardMedia)(() => ({
 const Home = () => {
   return (
     <TemplateDefault>
-      <SearchContainer maxWidth="md">
+      <Container maxWidth="md">
           <Typography component='h1' variant='h3' align='center' color='textPrimary'>
             O que deseja encontrar? 
           </Typography>
@@ -45,7 +43,7 @@ const Home = () => {
               <SearchIcon />
             </IconButton>
           </SearchBox>
-      </SearchContainer>
+      </Container>
         <Container maxWidth='lg'>
             <Typography component='h2' variant='h4' align='center' color='textPrimary'>
                 Destaques
