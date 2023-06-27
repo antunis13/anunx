@@ -46,7 +46,7 @@ const Home = () => {
             </IconButton>
           </SearchBox>
       </SearchContainer>
-        <Container>
+        <Container maxWidth='lg'>
             <Typography component='h2' variant='h4' align='center' color='textPrimary'>
                 Destaques
             </Typography>
