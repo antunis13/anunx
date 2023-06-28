@@ -1,4 +1,4 @@
-import TemplateDefault from '../src/templates/Default'
+import TemplateDefault from '../../src/templates/Default'
 import { styled } from '@mui/system'
 import {
     Container,
