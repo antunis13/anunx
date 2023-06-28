@@ -42,15 +42,19 @@ const StyledInputLabel = styled(InputLabel)(({ theme }) => ({
 }))
 
 const validationSchema = object({
-    title: string()
-        .min(6, 'Escreva um título maior')
-        .max(100, 'Título muito grande')
-        .required('Campo obrigatório'),
-    
-    category: string().required('Campo obrigatório'),
-    description: string()
-    .min(50, 'Escreva uma descrição com pelo menos 50 caracteres.')
-    .required('Campo obrigatório'),   
+   title: string()
+      .min(6, 'Escreva um título maior')
+      .max(100, 'Título muito grande')
+      .required('Campo obrigatório'),
+   
+   category: string().required('Campo obrigatório'),
+   description: string()
+      .min(50, 'Escreva uma descrição com pelo menos 50 caracteres.')
+      .required('Campo obrigatório'),   
+   price: number().required('Campo obrigatório'), 
+   email: string().email('Digite um email válido').required('Campo obrigatório'),
+   name: string().required('Campo obrigatório'),
+   phone: number().required('Campo obrigatório'), 
 })
 
 
@@ -63,6 +67,10 @@ const Publish = () => {
                     title: '',
                     category: '',
                     description: '',
+                    price: '',
+                    email: '',
+                    name: '',
+                    phone: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
@@ -90,51 +98,51 @@ const Publish = () => {
 
                                 <BoxContainer maxWidth='md'>
                                     <StyledBox>
-                                        <FormControl error={errors.title} fullWidth> 
-                                            <StyledInputLabel>
-                                                Título do Anúncio
-                                            </StyledInputLabel>                                         
-                                            <Input 
-                                                name='title'
-                                                value={values.title}
-                                                onChange={handleChange}
-                                                variant='standard'                                     
-                                            />
-                                            <FormHelperText>
-                                                {errors.title}
-                                            </FormHelperText>
-                                        </FormControl>
-                                        <br /><br/>
-                                        <FormControl error={errors.category} fullWidth>
-                                            <StyledInputLabel>
-                                                Categoria
-                                            </StyledInputLabel>
-                                            <Select
-                                                name='category'
-                                                value={values.category}
-                                                fullWidth
-                                                onChange={handleChange}
-                                            >
-                                                <MenuItem value='Bebê e Criança'>Bebê e Criança</MenuItem>
-                                                <MenuItem value='Agricultura'>Agricultura</MenuItem>
-                                                <MenuItem value='Moda'>Moda</MenuItem>
-                                                <MenuItem value='Carros, Motos e Barcos'>Carros, Motos e Barcos</MenuItem>
-                                                <MenuItem value='Serviços'>Serviços</MenuItem>
-                                                <MenuItem value='Lazer'>Lazer</MenuItem>
-                                                <MenuItem value='Animais'>Animais</MenuItem>
-                                                <MenuItem value='Móveis, Casa e Jardim'>Móveis, Casa e Jardim</MenuItem>
-                                                <MenuItem value='Imóveis'>Imóveis</MenuItem>
-                                                <MenuItem value='Equipamentos e Ferramentas'>Equipamentos e Ferramentas</MenuItem>
-                                                <MenuItem value='Celulares e Tablets'>Celulares e Tablets</MenuItem>
-                                                <MenuItem value='Esporte'>Esporte</MenuItem>
-                                                <MenuItem value='Tecnologia'>Tecnologia</MenuItem>
-                                                <MenuItem value='Emprego'>Emprego</MenuItem>
-                                                <MenuItem value='Outros'>Outros</MenuItem>
-                                            </Select>
-                                            <FormHelperText>
-                                                {errors.category}
-                                            </FormHelperText>
-                                        </FormControl>
+                                       <FormControl error={errors.title} fullWidth> 
+                                          <StyledInputLabel>
+                                             Título do Anúncio
+                                          </StyledInputLabel>                                         
+                                          <Input 
+                                             name='title'
+                                             value={values.title}
+                                             onChange={handleChange}
+                                             variant='standard'                                     
+                                          />
+                                          <FormHelperText>
+                                             {errors.title}
+                                          </FormHelperText>
+                                       </FormControl>
+                                       <br /><br/>
+                                       <FormControl error={errors.category} fullWidth>
+                                          <StyledInputLabel>
+                                             Categoria
+                                          </StyledInputLabel>
+                                          <Select
+                                             name='category'
+                                             value={values.category}
+                                             fullWidth
+                                             onChange={handleChange}
+                                          >
+                                             <MenuItem value='Bebê e Criança'>Bebê e Criança</MenuItem>
+                                             <MenuItem value='Agricultura'>Agricultura</MenuItem>
+                                             <MenuItem value='Moda'>Moda</MenuItem>
+                                             <MenuItem value='Carros, Motos e Barcos'>Carros, Motos e Barcos</MenuItem>
+                                             <MenuItem value='Serviços'>Serviços</MenuItem>
+                                             <MenuItem value='Lazer'>Lazer</MenuItem>
+                                             <MenuItem value='Animais'>Animais</MenuItem>
+                                             <MenuItem value='Móveis, Casa e Jardim'>Móveis, Casa e Jardim</MenuItem>
+                                             <MenuItem value='Imóveis'>Imóveis</MenuItem>
+                                             <MenuItem value='Equipamentos e Ferramentas'>Equipamentos e Ferramentas</MenuItem>
+                                             <MenuItem value='Celulares e Tablets'>Celulares e Tablets</MenuItem>
+                                             <MenuItem value='Esporte'>Esporte</MenuItem>
+                                             <MenuItem value='Tecnologia'>Tecnologia</MenuItem>
+                                             <MenuItem value='Emprego'>Emprego</MenuItem>
+                                             <MenuItem value='Outros'>Outros</MenuItem>
+                                          </Select>
+                                          <FormHelperText>
+                                             {errors.category}
+                                          </FormHelperText>
+                                       </FormControl>
                                     </StyledBox>
                                 </BoxContainer>
 
@@ -153,14 +161,15 @@ const Publish = () => {
                                 <BoxContainer maxWidth='md'>
                                     <StyledBox>                                  
                                         <FormControl error={errors.description} fullWidth> 
-                                            <tyledInputLabel>
+                                            <StyledInputLabel>
                                                 Escreva os detalhes do que está vendendo.
-                                            </tyledInputLabel>
+                                            </StyledInputLabel>
                                             <Input
                                                 name='description' 
                                                 multiline
                                                 rows={6}
                                                 variant='outlined'
+                                                onChange={handleChange}
                                             />
                                             <FormHelperText>
                                                 {errors.description}
@@ -171,47 +180,72 @@ const Publish = () => {
 
                                 <BoxContainer maxWidth='md'>
                                     <StyledBox>
-                                        <Typography component='h6' variant='h6' color='textPrimary'>
-                                            Preço 
-                                        </Typography>
-                                        <br />
-                                        <FormControl fullWidth variant='outlined'>
-                                            <FormLabel>
-                                                Valor
-                                            </FormLabel>
-                                            <OutlinedInput 
-                                                onChange={() => {}}
+                                        <FormControl error={errors.price} fullWidth> 
+                                            <StyledInputLabel>
+                                                Preço
+                                            </StyledInputLabel>
+                                            <Input
+                                                name='price'
+                                                onChange={handleChange} 
                                                 startAdornment={<InputAdornment position='start'>R$</InputAdornment>}
+                                                variant='outlined'
                                             />
+                                            <FormHelperText>
+                                                {errors.price}
+                                            </FormHelperText>
                                         </FormControl>
                                     </StyledBox>
                                 </BoxContainer>
 
                                 <BoxContainer maxWidth='md'>
                                     <StyledBox>
-                                        <Typography component='h6' variant='h6' color='textPrimary' gutterBottom>
-                                            Dados de Contato
-                                        </Typography>
-                                        <TextField 
-                                            label='Nome'
-                                            variant='outlined'
-                                            size='small'
-                                            fullWidth
-                                        />
-                                        <br/> <br/>
-                                        <TextField 
-                                            label='E-mail'
-                                            variant='outlined'
-                                            size='small'
-                                            fullWidth
-                                        />
-                                        <br/> <br/>
-                                        <TextField 
-                                            label='Telefone'
-                                            variant='outlined'
-                                            size='small'
-                                            fullWidth
-                                        />
+                                       <Typography component='h6' variant='h6' color='textPrimary' gutterBottom>
+                                          Dados de Contato
+                                       </Typography>
+                                       <FormControl error={errors.name} fullWidth> 
+                                          <StyledInputLabel>
+                                             Nome
+                                          </StyledInputLabel>                                         
+                                          <Input 
+                                             name='name'
+                                             value={values.name}
+                                             onChange={handleChange}
+                                             variant='standard'                                     
+                                          />
+                                          <FormHelperText>
+                                             {errors.name}
+                                          </FormHelperText>
+                                       </FormControl>
+                                       <br/> <br/>
+                                       <FormControl error={errors.email} fullWidth> 
+                                          <StyledInputLabel>
+                                             Email
+                                          </StyledInputLabel>                                         
+                                          <Input 
+                                             name='email'
+                                             value={values.email}
+                                             onChange={handleChange}
+                                             variant='standard'                                     
+                                          />
+                                          <FormHelperText>
+                                             {errors.email}
+                                          </FormHelperText>
+                                       </FormControl>
+                                       <br/> <br/>
+                                       <FormControl error={errors.phone} fullWidth> 
+                                          <StyledInputLabel>
+                                             Telefone
+                                          </StyledInputLabel>                                         
+                                          <Input 
+                                             name='phone'
+                                             value={values.phone}
+                                             onChange={handleChange}
+                                             variant='standard'                                     
+                                          />
+                                          <FormHelperText>
+                                             {errors.phone}
+                                          </FormHelperText>
+                                       </FormControl>
                                     </StyledBox>
                                 </BoxContainer>
 
