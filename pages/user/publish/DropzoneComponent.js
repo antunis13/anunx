@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { styled } from "styled-components"
 import { DeleteForever } from '@mui/icons-material'
-import { Box, IconButton, Typography } from "@mui/material"
+import { Box, IconButton, Typography, Container } from "@mui/material"
 
 import { useDropzone } from 'react-dropzone'
 
