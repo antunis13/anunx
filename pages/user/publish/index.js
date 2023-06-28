@@ -11,6 +11,8 @@ import {
     FormLabel,
     MenuItem,
     FormHelperText,
+    Input,
+    InputLabel,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -34,13 +36,21 @@ const StyledBox = styled(Box)(({ theme }) => ({
     padding: theme.spacing(3),
 }))
 
+const StyledInputLabel = styled(InputLabel)(({ theme }) => ({
+    fontWeight: 400,
+    color: theme.palette.primary.main,
+}))
+
 const validationSchema = object({
     title: string()
         .min(6, 'Escreva um título maior')
         .max(100, 'Título muito grande')
         .required('Campo obrigatório'),
     
-    category: string().required('Campo obrigatório')   
+    category: string().required('Campo obrigatório'),
+    description: string()
+    .min(50, 'Escreva uma descrição com pelo menos 50 caracteres.')
+    .required('Campo obrigatório'),   
 })
 
 
@@ -51,7 +61,8 @@ const Publish = () => {
             <Formik
                 initialValues={{
                     title: '',
-                    category: ''
+                    category: '',
+                    description: '',
                 }}
                 validationSchema={validationSchema}
                 onSubmit={(values) => {
@@ -79,25 +90,25 @@ const Publish = () => {
 
                                 <BoxContainer maxWidth='md'>
                                     <StyledBox>
-                                        <Typography component='h6' variant='h6' color='textPrimary'>
-                                            Título do Anúncio
-                                        </Typography>
-                                        <TextField 
-                                            name='title'
-                                            value={values.title}
-                                            onChange={handleChange}
-                                            label='ex.: Bicicleta Aro 29 Shimano'
-                                            size='small'
-                                            fullWidth
-                                            variant='standard'
-                                            error={errors.title}
-                                            helperText={errors.title}
-                                        />
+                                        <FormControl error={errors.title} fullWidth> 
+                                            <StyledInputLabel>
+                                                Título do Anúncio
+                                            </StyledInputLabel>                                         
+                                            <Input 
+                                                name='title'
+                                                value={values.title}
+                                                onChange={handleChange}
+                                                variant='standard'                                     
+                                            />
+                                            <FormHelperText>
+                                                {errors.title}
+                                            </FormHelperText>
+                                        </FormControl>
                                         <br /><br/>
-                                        <Typography component='h6' variant='h6' color='textPrimary'>
-                                            Categoria
-                                        </Typography>
                                         <FormControl error={errors.category} fullWidth>
+                                            <StyledInputLabel>
+                                                Categoria
+                                            </StyledInputLabel>
                                             <Select
                                                 name='category'
                                                 value={values.category}
@@ -140,19 +151,21 @@ const Publish = () => {
                                 </BoxContainer>
 
                                 <BoxContainer maxWidth='md'>
-                                    <StyledBox>
-                                        <Typography component='h6' variant='h6' color='textPrimary'>
-                                            Descrição 
-                                        </Typography>
-                                        <Typography component='div' variant='body2' color='textPrimary'>
-                                        Escreva os detalhes do que está vendendo.
-                                        </Typography>
-                                        <TextField 
-                                            multiline
-                                            rows={6}
-                                            variant='outlined'
-                                            fullWidth
-                                        />
+                                    <StyledBox>                                  
+                                        <FormControl error={errors.description} fullWidth> 
+                                            <tyledInputLabel>
+                                                Escreva os detalhes do que está vendendo.
+                                            </tyledInputLabel>
+                                            <Input
+                                                name='description' 
+                                                multiline
+                                                rows={6}
+                                                variant='outlined'
+                                            />
+                                            <FormHelperText>
+                                                {errors.description}
+                                            </FormHelperText>
+                                        </FormControl>    
                                     </StyledBox>
                                 </BoxContainer>
 
