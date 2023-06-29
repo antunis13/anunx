@@ -1,122 +1,33 @@
-import { useState } from 'react'
-import {
-   Container,
-   Typography,
-   Box,
-   Select,
-   Button,
-   FormControl,
-   InputAdornment,
-   MenuItem,
-   FormHelperText,
-   Input,
-   InputLabel,
-   IconButton,
-} from '@mui/material'
-import { styled } from "styled-components"
-import { DeleteForever } from '@mui/icons-material'
-import { styled as styledMUI } from '@mui/system'
+
 import { Formik } from 'formik' 
-import { object, string, number, date, InferType, array } from 'yup'
+import {
+  Container,
+  Typography,
+  Box,
+  Select,
+  Button,
+  FormControl,
+  InputAdornment,
+  MenuItem,
+  FormHelperText,
+  Input,
+} from '@mui/material'
+
 import TemplateDefault from '../../../src/templates/Default'
-
-import { useDropzone } from 'react-dropzone'
-
-const Mask = styled(Box)`
-   width: 100%;
-   height: 100%;
-   display: none;
-   justify-content: center;
-   align-items: center;
-   background-color: rgba(0, 0, 0, 0.7);
-`
-const MainImage = styled(Box)`  
-   background-color: blue;
-   padding: 6px 10px;
-   position: absolute;
-   bottom: 0;
-   left: 0;
-`
-
-const Thumb = styled(Box)`
-   position: relative;
-   width: 200px;
-   height: 150px;
-   background-size: cover;
-   background-position: center center;
-   margin: 0px 15px 15px 0px;
-
-   &:hover {
-      ${Mask} {
-            display: flex;
-      }
-   }    
-
-`
-const ThumbsContainer = styled(Box)`
-   display: flex;
-   flex-wrap: wrap;
-   margin-top: 15px;    
-`
-const Dropzone = styled(Box)`
-   width: 200px;
-   height: 150px;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   text-align: center;
-   margin: 0 15px 15px 0;
-   background-color: rgb(242, 244, 245);
-   border: 2px dashed black;
-`
-const BoxContainer = styledMUI(Container)(({ theme }) => ({
-    paddingBottom: theme.spacing(3)
-}))
-
-const StyledBox = styledMUI(Container)(({ theme }) => ({
-    backgroundColor: theme.palette.background.white,
-    padding: theme.spacing(3),
-}))
-
-const StyledInputLabel = styledMUI(InputLabel)(({ theme }) => ({
-    fontWeight: 400,
-    color: theme.palette.primary.main,
-}))
-
-const validationSchema = object({
-   title: string()
-      .min(6, 'Escreva um título maior')
-      .max(100, 'Título muito grande')
-      .required('Campo obrigatório'),
-   
-   category: string().required('Campo obrigatório'),
-   description: string()
-      .min(50, 'Escreva uma descrição com pelo menos 50 caracteres.')
-      .required('Campo obrigatório'),   
-   price: number().required('Campo obrigatório'), 
-   email: string().email('Digite um email válido').required('Campo obrigatório'),
-   name: string().required('Campo obrigatório'),
-   phone: number().required('Campo obrigatório'), 
-   files: array().min(1, 'Envie pelo menos uma foto').required('Campo obrigatório')
-})
-
+import { initialValues, validationSchema } from './formValue'
+import {  
+  StyledBox,
+  StyledInputLabel,
+  BoxContainer,
+} from './styles'
+import FileUpload  from '../../../src/components/FileUpload'
 
 const Publish = () => {
-   const [ files, setFiles ] = useState([])
     
    return(
       <TemplateDefault>
          <Formik
-            initialValues={{
-               title: '',
-               category: '',
-               description: '',
-               price: '',
-               email: '',
-               name: '',
-               phone: '',
-               files: [],
-            }}
+            initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={(values) => {
                console.log('enviou o form', values)
@@ -131,25 +42,7 @@ const Publish = () => {
                   handleSubmit,
                   setFieldValue
                })=>{
-                  const { getRootProps, getInputProps } = useDropzone({
-                     accept: 'image/*',
-                     onDrop: (acceptedFile) => {
-                        const newFiles = acceptedFile.map(file => {
-                           return Object.assign(file, {
-                                 preview: URL.createObjectURL(file)
-                           })
-                        })
-                        setFieldValue('files', [
-                           ...values.files,
-                           ...newFiles,
-                        ])
-                     }
-                  })
-                  const handleRemoveFile = fileName => {
-                     const newFileState = values.files.filter(file => file.name !== fileName)
-               
-                     setFieldValue('files', newFileState)
-                  }
+
                   console.log(errors)
                   return(
                         <form onSubmit={handleSubmit}> 
@@ -188,6 +81,7 @@ const Publish = () => {
                                        value={values.category}
                                        fullWidth
                                        onChange={handleChange}
+                                       variant='standard'
                                     >
                                        <MenuItem value='Bebê e Criança'>Bebê e Criança</MenuItem>
                                        <MenuItem value='Agricultura'>Agricultura</MenuItem>
@@ -214,48 +108,7 @@ const Publish = () => {
 
                            <BoxContainer maxWidth='md'>
                               <StyledBox>
-                                 <Typography component='h6' variant='h6' color={errors.files && touched.files ? 'error' : 'textPrimary'}>
-                                    Imagens
-                                 </Typography>
-                                 <Typography component='div' variant='body2' color={errors.files && touched.files ? 'error' : 'textPrimary'}>
-                                    A primeira imagem é a foto principal do seu anúncio.
-                                 </Typography>
-                                    {
-                                       errors.files && touched.files
-                                       ? <Typography variant='body2' color='error' gutterBottom>{errors.files}</Typography>
-                                       : null
-                                    }
-                                    <ThumbsContainer>
-                                       <Dropzone {...getRootProps()}>
-                                          <input {...getInputProps()} />
-                                          <Typography variant='body2' color={errors.files && touched.files ? 'error' : 'textPrimary'}>
-                                             Clique para adiconar ou arraste a imagem para aqui.
-                                          </Typography>
-                                       </Dropzone>
-                                       {
-                                          values.files.map((file, index) => (
-                                             <Thumb
-                                                   key={file.name}
-                                                   style={{ backgroundImage: `url(${file.preview})` }}
-                                             >
-                                                   {
-                                                      index === 0 ?
-                                                         <MainImage>
-                                                               <Typography variant='body2' color='secondary' > 
-                                                                  Principal
-                                                               </Typography>
-                                                         </MainImage>
-                                                      : null
-                                                   }
-                                                   <Mask>
-                                                      <IconButton color='secondary' onClick={() => handleRemoveFile(file.name)}>
-                                                         <DeleteForever fontSize='large' />
-                                                      </IconButton>
-                                                   </Mask>
-                                             </Thumb>
-                                          ))
-                                       }
-                                    </ThumbsContainer>
+                                 
                               </StyledBox>
                            </BoxContainer>
 
@@ -278,7 +131,12 @@ const Publish = () => {
                                     </FormControl>    
                               </StyledBox>
                            </BoxContainer>
-
+                              <FileUpload 
+                                files={values.files}
+                                errors={errors.files}
+                                touched={touched.files}
+                                setFieldValue={setFieldValue}
+                              />
                            <BoxContainer maxWidth='md'>
                               <StyledBox>
                                     <FormControl error={errors.price && touched.price} fullWidth> 
@@ -367,4 +225,3 @@ const Publish = () => {
 }
 
 export default Publish
-
