@@ -1,8 +1,16 @@
 import { Formik } from 'formik' 
+import axios from 'axios'
+import { useRouter } from 'next/router'
 
 import TemplateDefault from '../../../src/templates/Default'
 import { initialValues, validationSchema } from './formValue'
-import { StyledInputLabel, StyledButton, StyledContainer } from './style'
+import  useToasty  from '../../../src/contexts/Toasty'
+import {
+    StyledInputLabel,
+    StyledButton,
+    StyledContainer,
+    StyledCircularProgress
+} from './style'
 
 import {
     Container, 
@@ -15,14 +23,29 @@ import {
 
 
 const SignUp = () => {
+
+    const { setToasty } = useToasty()
+    const router = useRouter()
+
+	const handleFormSubmit = async values =>{
+		const response = await axios.post('/api/users', values)
+
+		if(response.data.success){
+			setToasty({
+                open: true,
+                severity: 'success',
+                text: "Cadastrado com sucesso"
+            })
+
+            router.push('/auth/signin')
+		}
+	}
     return(
         <TemplateDefault>
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                onSubmit={(values) => {
-                console.log('enviou o form', values)
-                }}
+                onSubmit={handleFormSubmit}
                 >
                 {
                     ({
@@ -31,6 +54,7 @@ const SignUp = () => {
                         errors,
                         handleChange,
                         handleSubmit,
+						isSubmitting,
                     })=>{
                             console.log(errors)
                             return(
@@ -108,11 +132,18 @@ const SignUp = () => {
                                         </FormControl>
                                     </StyledContainer>
                                     <StyledContainer maxWidth='sm'>
-                                        <Box>
-                                            <StyledButton type='submit' variant='contained' color='primary'>
-                                                Cadastrar
-                                            </StyledButton>
-                                        </Box>
+										{
+											isSubmitting
+											?(
+												<StyledCircularProgress />
+											): (
+												<Box>
+													<StyledButton type='submit' variant='contained' color='primary'>
+														Cadastrar
+													</StyledButton>
+												</Box>
+											)
+										}
                                     </StyledContainer>
                                 </form>
                             )
