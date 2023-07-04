@@ -3,7 +3,8 @@ import {
     Container, 
     InputLabel,
     Button,
-    CircularProgress
+    CircularProgress,
+    Alert
 } from '@mui/material'
 
 const StyledContainer = styled(Container)(({ theme }) => ({
@@ -26,9 +27,14 @@ const StyledCircularProgress = styled(CircularProgress)({
     margin: '10px auto',
 })
 
+const StyledAlert = styled(Alert)({
+  margin: '20px 0'
+})
+
 export{
     StyledButton,
     StyledContainer,
     StyledInputLabel,
     StyledCircularProgress,
+    StyledAlert,
 }

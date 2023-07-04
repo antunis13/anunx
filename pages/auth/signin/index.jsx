@@ -1,6 +1,7 @@
 import { Formik } from 'formik' 
-import axios from 'axios'
 import { useRouter } from 'next/router'
+import { signIn, useSession } from 'next-auth/react'
+
 
 import TemplateDefault from '../../../src/templates/Default'
 import { initialValues, validationSchema } from './formValue'
@@ -9,7 +10,8 @@ import {
     StyledInputLabel,
     StyledButton,
     StyledContainer,
-    StyledCircularProgress
+    StyledCircularProgress,
+    StyledAlert
 } from './style'
 
 import {
@@ -26,9 +28,14 @@ const SignIn = () => {
 
     const { setToasty } = useToasty()
     const router = useRouter()
-
+    const session = useSession()
+    console.log(session, router.query.i)
 	const handleFormSubmit = async values =>{
-
+        signIn('credentials', {
+            email: values.email,
+            password: values.password,
+            callbackUrl: 'http://localhost:3000/user/dashboard'
+        })
 		
 	}
     return(
@@ -50,6 +57,13 @@ const SignIn = () => {
                             console.log(errors)
                             return(
                                 <form onSubmit={handleSubmit}> 
+                                {
+                                    router.query.i === '1'
+                                    ?(
+                                        <StyledAlert severity='error'>Usuário ou senha inválidos</StyledAlert>
+                                    )
+                                    : null        
+                                }
                                     <Container maxWidth='sm' component='main'>
                                         <Typography variant='h2' component='h1' align='center' color='textPrimary'>
                                             Entre na sua conta
@@ -65,7 +79,7 @@ const SignIn = () => {
                                               type='email'
                                               value={values.email}
                                               onChange={handleChange}
-                                              variant='standard'                                     
+                                              variant='standard'                                    
                                           />
                                           <FormHelperText>
                                               {errors.email && touched.email ? errors.email : null}
