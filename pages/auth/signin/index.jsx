@@ -1,6 +1,7 @@
 import { Formik } from 'formik' 
 import { useRouter } from 'next/router'
 import { signIn, useSession } from 'next-auth/react'
+import Image from 'next/image'
 
 
 import TemplateDefault from '../../../src/templates/Default'
@@ -11,7 +12,9 @@ import {
     StyledButton,
     StyledContainer,
     StyledCircularProgress,
-    StyledAlert
+    StyledAlert,
+    BoxSeparator,
+    StyledSpan
 } from './style'
 
 import {
@@ -21,6 +24,7 @@ import {
     Input,
     FormHelperText,
     Box,
+    Button,
 } from '@mui/material'
 
 
@@ -28,8 +32,11 @@ const SignIn = () => {
 
     const { setToasty } = useToasty()
     const router = useRouter()
-    const session = useSession()
-    console.log(session, router.query.i)
+    const { data: session, status } = useSession()
+
+    if (status === "authenticated") {
+    console.log(`Signed in as ${session.user.email}`)
+    }
 	const handleFormSubmit = async values =>{
         signIn('credentials', {
             email: values.email,
@@ -38,6 +45,11 @@ const SignIn = () => {
         })
 		
 	}
+    const handleGoogleLogin = () => {
+        signIn('google', {
+            callbackUrl: 'http://localhost:3000/user/dashboard'
+        })
+    }
     return(
         <TemplateDefault>
             <Formik
@@ -70,6 +82,25 @@ const SignIn = () => {
                                         </Typography>
                                     </Container>
                                     <StyledContainer maxWidth='sm' elevation={0}>
+                                        <Box display='flex' justifyContent='center'>
+                                            <Button 
+                                                variant='contained'
+                                                color='primary'
+                                                startIcon={
+                                                    <Image 
+                                                        alt='Login com Google'
+                                                        src='/images/logo_google.png'
+                                                        width={20}
+                                                        height={20}
+                                                    />
+                                                }
+                                                onClick={(handleGoogleLogin)}>
+                                                Entrar com Google
+                                            </Button>
+                                        </Box>
+                                        <BoxSeparator>
+                                            <StyledSpan>ou</StyledSpan>
+                                        </BoxSeparator>
                                       <FormControl error={errors.email && touched.email} fullWidth> 
                                           <StyledInputLabel>
                                               Email

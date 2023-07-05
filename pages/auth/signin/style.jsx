@@ -4,7 +4,8 @@ import {
     InputLabel,
     Button,
     CircularProgress,
-    Alert
+    Alert,
+    Box
 } from '@mui/material'
 
 const StyledContainer = styled(Container)(({ theme }) => ({
@@ -31,10 +32,27 @@ const StyledAlert = styled(Alert)({
   margin: '20px 0'
 })
 
+const BoxSeparator = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#e8e8e8',
+    width: '100%',
+    height: 1,
+    margin: theme.spacing(7, 0, 4)
+}))
+
+const StyledSpan = styled('span')({
+    backgroundColor: 'white',
+    padding: '0 30px'
+})
+
 export{
     StyledButton,
     StyledContainer,
     StyledInputLabel,
     StyledCircularProgress,
     StyledAlert,
+    BoxSeparator,
+    StyledSpan,
 }
