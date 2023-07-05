@@ -1,6 +1,6 @@
 'use client'
-
-import {useState} from 'react'
+import { useSession, signOut } from 'next-auth/react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { styled } from '@mui/system'
 import {
@@ -19,7 +19,11 @@ import {
 import { AccountCircle } from '@mui/icons-material'
 
 const UserName = styled(Typography)({
-  marginLeft: 8,
+  marginLeft: 10,
+})
+
+const StyledButton = styled(Button)({
+  marginRight: 10,
 })
 
 const LinkMenu = styled(Link)(({ theme }) => ({
@@ -29,7 +33,7 @@ const LinkMenu = styled(Link)(({ theme }) => ({
 
 export default function Header() {
   const [anchorUserMenu, setAnchorUserMenu] = useState(false)
-
+  const { data: session, status } = useSession()
   const openUserMenu = Boolean(anchorUserMenu)
   
   return (
@@ -40,19 +44,24 @@ export default function Header() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Anunx
             </Typography>
-            <Link href='/user/publish' passHref>
-              <Button color="secondary" variant='outlined'>Anunciar e Vender</Button>
+            <Link href={session ? '/user/publish' : '/auth/signin'} passHref>
+              <StyledButton color="secondary" variant='outlined'>Anunciar e Vender</StyledButton>
             </Link>
-            <IconButton color='secondary' onClick={(e) => setAnchorUserMenu(e.currentTarget)}>
               {
-                true === false
-                  ? <Avatar src=''/>
-                  : <AccountCircle />
+                session
+                ?(
+                  <IconButton color='secondary' onClick={(e) => setAnchorUserMenu(e.currentTarget)}>
+                    {
+                        session.user.image
+                        ? <Avatar src={session.user.image}/>
+                        : <AccountCircle />
+                    }
+                    <UserName variant='subtitle2' color='secondary'> 
+                        {session.user.name}
+                    </UserName>
+                  </IconButton>
+                ): null
               }
-              <UserName variant='subtitle2' color='secondary'> 
-                Richard
-              </UserName>
-            </IconButton>
             <Menu
               open={openUserMenu}
               anchorEl={anchorUserMenu}
@@ -69,7 +78,9 @@ export default function Header() {
                 <MenuItem>Publicar novo anúncio</MenuItem>
               </LinkMenu>
               <Divider />
-              <MenuItem>Sair</MenuItem>
+              <MenuItem onClick={() => signOut({
+                callbackUrl: '/'
+              })}>Sair</MenuItem>
             </Menu>
           </Toolbar>
         </Container>
