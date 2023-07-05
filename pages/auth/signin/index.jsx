@@ -28,7 +28,8 @@ import {
 } from '@mui/material'
 
 
-const SignIn = () => {
+const SignIn = ({ app_url }) => {
+
 
     const { setToasty } = useToasty()
     const router = useRouter()
@@ -41,13 +42,13 @@ const SignIn = () => {
         signIn('credentials', {
             email: values.email,
             password: values.password,
-            callbackUrl: 'http://localhost:3000/user/dashboard'
+            callbackUrl: `${app_url}/user/dashboard`
         })
 		
 	}
     const handleGoogleLogin = () => {
         signIn('google', {
-            callbackUrl: 'http://localhost:3000/user/dashboard'
+            callbackUrl: `${app_url}/user/dashboard`
         })
     }
     return(
@@ -155,6 +156,16 @@ const SignIn = () => {
         </TemplateDefault>
     )
 
+}
+
+
+export async function getServerSideProps(){
+    const app_url= process.env.APP_URL
+    return{
+        props: {
+            app_url,
+        }
+    }
 }
 
 export default SignIn
