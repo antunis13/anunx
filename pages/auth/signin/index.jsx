@@ -67,90 +67,90 @@ const SignIn = ({ app_url }) => {
                         handleSubmit,
 						isSubmitting,
                     })=>{
-                            console.log(errors)
-                            return(
-                                <form onSubmit={handleSubmit}> 
-                                {
-                                    router.query.i === '1'
+                        console.log(errors)
+                        return(
+                            <form onSubmit={handleSubmit}> 
+                            {
+                                router.query.i === '1'
+                                ?(
+                                    <StyledAlert severity='error'>Usuário ou senha inválidos</StyledAlert>
+                                )
+                                : null        
+                            }
+                                <Container maxWidth='sm' component='main'>
+                                    <Typography variant='h2' component='h1' align='center' color='textPrimary'>
+                                        Entre na sua conta
+                                    </Typography>
+                                </Container>
+                                <StyledContainer maxWidth='sm' elevation={0}>
+                                    <Box display='flex' justifyContent='center'>
+                                        <Button 
+                                            variant='contained'
+                                            color='primary'
+                                            startIcon={
+                                                <Image 
+                                                    alt='Login com Google'
+                                                    src='/images/logo_google.png'
+                                                    width={20}
+                                                    height={20}
+                                                />
+                                            }
+                                            onClick={(handleGoogleLogin)}>
+                                            Entrar com Google
+                                        </Button>
+                                    </Box>
+                                    <BoxSeparator>
+                                        <StyledSpan>ou</StyledSpan>
+                                    </BoxSeparator>
+                                    <FormControl error={errors.email && touched.email} fullWidth> 
+                                        <StyledInputLabel>
+                                            Email
+                                        </StyledInputLabel>                                         
+                                        <Input 
+                                            name='email'
+                                            type='email'
+                                            value={values.email}
+                                            onChange={handleChange}
+                                            variant='standard'                                    
+                                        />
+                                        <FormHelperText>
+                                            {errors.email && touched.email ? errors.email : null}
+                                        </FormHelperText>
+                                    </FormControl>
+                                    <br/> <br/>
+                                    <FormControl error={errors.password && touched.password} fullWidth> 
+                                        <StyledInputLabel>
+                                            Senha
+                                        </StyledInputLabel>                                         
+                                        <Input 
+                                            name='password'
+                                            type='password'
+                                            value={values.password}
+                                            onChange={handleChange}
+                                            variant='standard'                                     
+                                        />
+                                        <FormHelperText>
+                                            {errors.password && touched.password ? errors.password : null}
+                                        </FormHelperText>
+                                    </FormControl>
+                                </StyledContainer>
+                                <StyledContainer maxWidth='sm'>
+                                    {
+                                    isSubmitting
                                     ?(
-                                        <StyledAlert severity='error'>Usuário ou senha inválidos</StyledAlert>
-                                    )
-                                    : null        
-                                }
-                                    <Container maxWidth='sm' component='main'>
-                                        <Typography variant='h2' component='h1' align='center' color='textPrimary'>
-                                            Entre na sua conta
-                                        </Typography>
-                                    </Container>
-                                    <StyledContainer maxWidth='sm' elevation={0}>
-                                        <Box display='flex' justifyContent='center'>
-                                            <Button 
-                                                variant='contained'
-                                                color='primary'
-                                                startIcon={
-                                                    <Image 
-                                                        alt='Login com Google'
-                                                        src='/images/logo_google.png'
-                                                        width={20}
-                                                        height={20}
-                                                    />
-                                                }
-                                                onClick={(handleGoogleLogin)}>
-                                                Entrar com Google
-                                            </Button>
+                                        <StyledCircularProgress />
+                                    ): (
+                                        <Box>
+                                        <StyledButton type='submit' variant='contained' color='primary'>
+                                            Entrar
+                                        </StyledButton>
                                         </Box>
-                                        <BoxSeparator>
-                                            <StyledSpan>ou</StyledSpan>
-                                        </BoxSeparator>
-                                      <FormControl error={errors.email && touched.email} fullWidth> 
-                                          <StyledInputLabel>
-                                              Email
-                                          </StyledInputLabel>                                         
-                                          <Input 
-                                              name='email'
-                                              type='email'
-                                              value={values.email}
-                                              onChange={handleChange}
-                                              variant='standard'                                    
-                                          />
-                                          <FormHelperText>
-                                              {errors.email && touched.email ? errors.email : null}
-                                          </FormHelperText>
-                                      </FormControl>
-                                      <br/> <br/>
-                                      <FormControl error={errors.password && touched.password} fullWidth> 
-                                          <StyledInputLabel>
-                                              Senha
-                                          </StyledInputLabel>                                         
-                                          <Input 
-                                              name='password'
-                                              type='password'
-                                              value={values.password}
-                                              onChange={handleChange}
-                                              variant='standard'                                     
-                                          />
-                                          <FormHelperText>
-                                              {errors.password && touched.password ? errors.password : null}
-                                          </FormHelperText>
-                                      </FormControl>
-                                    </StyledContainer>
-                                    <StyledContainer maxWidth='sm'>
-                                      {
-                                        isSubmitting
-                                        ?(
-                                          <StyledCircularProgress />
-                                        ): (
-                                          <Box>
-                                            <StyledButton type='submit' variant='contained' color='primary'>
-                                              Entrar
-                                            </StyledButton>
-                                          </Box>
-                                        )
-                                      }
-                                    </StyledContainer>
-                              </form>
-                            )
-                        }
+                                    )
+                                    }
+                                </StyledContainer>
+                            </form>
+                        )
+                    }
                 }
             </Formik>          
         </TemplateDefault>
