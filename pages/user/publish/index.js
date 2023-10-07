@@ -2,7 +2,7 @@
 import { useRouter } from 'next/router'
 import { Formik } from 'formik' 
 import axios from 'axios'
-import { getSession } from 'next-auth/react'
+import { useSession, getSession  } from 'next-auth/react'
 
 import {
   Container,
@@ -28,17 +28,21 @@ import {
 } from './styles'
 import FileUpload  from '../../../src/components/FileUpload'
 
-const Publish = ({ image }) => {
+
+const Publish = ({ userId, image }) => {
    const { setToasty } = useToasty() 
    const router = useRouter()
+   const { data: session } = useSession()
 
+   console.log(session)
+   
    const formValues = {
       ...initialValues,
    }
-
-
+   
+   formValues.userId = userId
    formValues.image = image
-
+   
    const handleSuccess = () =>{
       setToasty({
          open: true,
@@ -78,7 +82,7 @@ const Publish = ({ image }) => {
             initialValues={formValues}
             validationSchema={validationSchema}
             onSubmit={handleFormSubmit}
-         >
+            >
             {
                ({
                   touched,
@@ -89,7 +93,7 @@ const Publish = ({ image }) => {
                   setFieldValue,
                   isSubmitting,
                })=>{
-
+                  
                   console.log(errors)
                   return(
                      <form onSubmit={handleSubmit}> 
@@ -194,7 +198,7 @@ const Publish = ({ image }) => {
                                        onChange={handleChange} 
                                        startAdornment={<InputAdornment position='start'>R$</InputAdornment>}
                                        variant='outlined'
-                                    />
+                                       />
                                     <FormHelperText>
                                        {errors.price && touched.price ? errors.price : null}
                                     </FormHelperText>
@@ -246,7 +250,7 @@ const Publish = ({ image }) => {
                                     value={values.phone}
                                     onChange={handleChange}
                                     variant='standard'                                     
-                                 />
+                                    />
                                  <FormHelperText>
                                     {errors.phone && touched.phone ? errors.phone : null}
                                  </FormHelperText>
@@ -277,13 +281,16 @@ const Publish = ({ image }) => {
 
 Publish.requireAuth = true
 
-export async function getServerSideProps({ req }){
-   const { user} =  await getSession({ req })
+export async function getServerSideProps({req}) {
+    const session = await getSession({req})
+    const userId = session.user.id
+    console.log('o user id :', userId)
    return {
-      props: {
-         image: user.image,
-      }
+     props: {
+      userId,
+      image: session.user.image,
+     }
    }
-}
+ }
 
 export default Publish

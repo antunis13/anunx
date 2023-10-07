@@ -16,7 +16,6 @@ export const authOptions = {
     }),
     CredentialsProvider({
       name: 'Credentials',
-      id: 'credentials',
       async authorize(credentials) {
         await dbConnect()
         const res = await axios.post(`${process.env.APP_URL}/api/auth/signin `, credentials)
@@ -37,30 +36,34 @@ export const authOptions = {
   },
 
   jwt: {
-    secret: process.env.JWT_TOKEN,
+    secret: process.env.JWT_TOKEN
   },
   pages: {
     signIn: '/auth/signin',
   },
 
   callbacks: {
-    async jwt({ token, account, profile }) {
-      // Persist the OAuth access_token and or the user id to the token right after signin
-      if (account) {
-        token.accessToken = account.access_token
-        token.id = profile.id
+    async jwt({ token, user, session }) {
+      if (user) {
+        return{
+          ...token,
+          id: user.id,
+        }
       }
-      return Promise.resolve(token)
+      return token
     },
-    async session({ session, token, user }) {
-      // Send properties to the client, like an access_token and user id from a provider.
-      session.accessToken = token.accessToken
-      session.user.id = token.id
-      
-      return session
+    async session({ session, token, user}){
+      console.log('session callback', {session, token, user})
+      return{
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+        }
+      } 
     }
-  }
-
+  }  
+  
 }
 
 export default NextAuth(authOptions)
