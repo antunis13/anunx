@@ -53,7 +53,6 @@ export const authOptions = {
       return token
     },
     async session({ session, token, user}){
-      console.log('session callback', {session, token, user})
       return{
         ...session,
         user: {

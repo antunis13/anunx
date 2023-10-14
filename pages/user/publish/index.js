@@ -34,7 +34,7 @@ const Publish = ({ userId, image }) => {
    const router = useRouter()
    const { data: session } = useSession()
 
-   console.log(session)
+   console.log('seção', session)
    
    const formValues = {
       ...initialValues,
@@ -71,9 +71,9 @@ const Publish = ({ userId, image }) => {
             formData.append(field, values[field])
          }
       }
-      axios.post('/api/products', formData)
-         .then(handleSuccess)
-         .catch(handleError)
+      axios.post('/api/products/add', formData)
+      .then(handleSuccess)
+      .catch(handleError)
    }
 
    return(
